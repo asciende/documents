@@ -1,8 +1,9 @@
-ya creada la tabla de auditoria para los clientes
-hay que terminar el modelo
+Pendientes
+Generar los nuevos usuarios
+Probar
+preparar para subir
+subir
+hacer los insert y update necesarios
 
 
-login
-get workflows
-get workflowsteps
- 
+mensaje al usuario mediante pushno seque

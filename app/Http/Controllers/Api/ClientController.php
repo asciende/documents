@@ -7,7 +7,9 @@ use App\Models\Client;
 use App\Http\Requests\StoreClientRequest;
 use App\Http\Requests\UpdateClientRequest;
 use App\Http\Resources\ClientResource;
+use App\Http\Resources\DocumentTypeResource;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 
 class ClientController extends Controller
 {
@@ -57,9 +59,22 @@ class ClientController extends Controller
     {
         $client = request()->user(); // o auth()->user();
         $client->load('workflows');
-        return response()->json(new ClientResource($client));        
+        return response()->json(new ClientResource($client));
     }
 
+    public function documentTypes(): JsonResponse
+    {
+        $client = Auth::user(); // cliente autenticado
+        $documentTypes = $client->documentTypes; // relación many-to-many
+        // $documentTypes = $client->documentTypes()->select(
+        //                                     'document_types.id',
+        //                                     'document_types.name',
+        //                                     'document_types.columns',
+        //                                     'document_types.titles',
+        //                                     'document_types.filter')->get();
+        return response()->json(DocumentTypeResource::collection($documentTypes));
+        //return response()->json($documentTypes);
+    }
 
 
 }

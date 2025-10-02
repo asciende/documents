@@ -3,19 +3,38 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-// use App\Http\Requests\StoreClientRequest;
-// use App\Http\Requests\UpdateClientRequest;
-// use App\Http\Resources\ClientResource;
+use App\Http\Resources\ClientResource;
 use App\Models\DocumentType;
+// use App\Models\DocumentType;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
+
 
 class DocumentTypeController extends Controller
 {
     public function index(): JsonResponse
     {
         $documentTypes = DocumentType::get();
-        //return response()->json(ClientResource::collection($documentTypes));
-        return response()->json($documentTypes);
+        return response()->json(ClientResource::collection($documentTypes));
+        //return response()->json($documentTypes);
+    }
+
+    public function filters(DocumentType $documentType): JsonResponse
+    {
+        $filters = [
+            'filters' => $documentType->filters,
+            'filters_labels' => $documentType->filters_labels
+        ];
+        return response()->json($filters);
+    }
+
+    public function columns(DocumentType $documentType): JsonResponse
+    {
+        $columns = [
+            'columns' => $documentType->columns,
+            'columns_header' => $documentType->columns_header
+        ];
+        return response()->json($columns);
     }
 
     // public function store(StoreClientRequest $request): JsonResponse
@@ -58,7 +77,7 @@ class DocumentTypeController extends Controller
     // {
     //     $client = request()->user(); // o auth()->user();
     //     $client->load('workflows');
-    //     return response()->json(new ClientResource($client));        
+    //     return response()->json(new ClientResource($client));
     // }
 
 

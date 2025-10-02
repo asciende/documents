@@ -10,7 +10,7 @@ class DocumentType extends Model
     /** @use HasFactory<\Database\Factories\DocumentTypeFactory> */
     use HasFactory;
 
-    protected $fillable = ['name','filter','columns'];
+    protected $fillable = ['name','filter','columns','columns_headers','filters','filters_labels'];
 
     public function clients()
     {
@@ -21,5 +21,4 @@ class DocumentType extends Model
     {
         return $this->hasMany(Document::class);
     }
-    
 }

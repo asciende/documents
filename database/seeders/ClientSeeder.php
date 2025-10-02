@@ -40,6 +40,44 @@ class ClientSeeder extends Seeder
             'email'=>'cmoretticli@mail.com',
             'password'=>Hash::make('cmoretticli-2025.AG8'),
         ]);
+
+
+        // solo para mgap
+        Client::create([
+            'name'=>'Ivo 800',
+            'email'=>'Ivo800@mgap.gub.uy',
+            'password'=>Hash::make('ivo800-2025.RE5'),
+        ]);
+        Client::create([
+            'name'=>'Casilla',
+            'email'=>'casilla@mgap.gub.uy',
+            'password'=>Hash::make('casilla-MGA.20o9'),
+        ]);
+
+        // documento 1 y 2
+        Client::create([
+            'name'=>'rama logistica',
+            'email'=>'rama.logistica@aramaycia.com.uy',
+            'password'=>Hash::make('logis.44s*5S8'),
+        ]);
+        Client::create([
+            'name'=>'rama docs cona',
+            'email'=>'rama.docs.cona@aramaycia.com.uy',
+            'password'=>Hash::make('doxco+A.CON'),
+        ]);
+
+        Client::create([
+            'name'=>'rama docs gral',
+            'email'=>'rama.docs.general@aramaycia.com.uy',
+            'password'=>Hash::make('gene-558.2205'),
+        ]);
+
+
+
+
+
+
+
         //Client::factory()->count(30)->create();
     }
 }

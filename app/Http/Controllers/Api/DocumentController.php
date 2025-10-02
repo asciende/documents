@@ -12,7 +12,7 @@ use App\Models\Document;
 // use App\Models\Client;
 use App\Models\DocumentType;
 use App\Events\DocumentsUploaded;
-
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,6 +26,7 @@ class DocumentController extends Controller
         $dataRequested = $request->json()->all();
         $document_type_id = $dataRequested['document_type_id'];
         $rows = $dataRequested['rows'];
+        $version = Carbon::now()->format('Ymd H:i');
 
         if($request->input('delete') == 1){
             Document::where('document_type_id', $document_type_id)->delete();
@@ -38,19 +39,20 @@ class DocumentController extends Controller
                 'external_id'      => $row['external_id'],
                 'identifier'       => $row['identifier'], // guardamos el JSON tal cual
                 'data'             => $row['data'],       // también JSON
+                'version'          => $version,
             ]);
         }
 
         Log::info("proxima linea event");
         //event(new DocumentsUploaded("Se cargaron documentos del tipo {$document_type_id}"));
-        event(new DocumentsUploaded($document_type_id, 'Se subió un nuevo documento'));
+        event(new DocumentsUploaded($document_type_id, 'Se han actualizado los documentos'));
         Log::info("anterior linea event");
 
         return response()->json(['message' => 'Documentos guardados correctamente.'], 201);
 
 
         //$documentos = $request->all(); // Asume JSON array en el body
-        
+
 
         // Validación simple (opcional pero recomendable)
         // foreach ($documentos as $index => $doc) {
@@ -74,13 +76,13 @@ class DocumentController extends Controller
         // }
 
         // Guardar todos los documentos
-        
+
     }
 
     public function getByType(Request $request, DocumentType $documentType)
     {
         $conditions = $request->input(); // estos son las condiciones que vienen desde la url
-        
+
         // esta funciona correctamete
         // $query = Document::select(
         //     'id',
@@ -89,14 +91,14 @@ class DocumentController extends Controller
         //     DB::raw("JSON_UNQUOTE(json_extract(identifier, '$.contenedor')) as contenedor")
         // );
 
-        
+
         $query = Document::select('id');
         $columns = array_map('trim', explode(',', $documentType->columns));
         foreach ($columns as $column) {
             $query->addSelect(
                 DB::raw("JSON_UNQUOTE(JSON_EXTRACT(data, '$.$column')) as $column")
             );
-        }        
+        }
 
         $query->where("document_type_id", $documentType->id);
         // agregar el filtro del cliente
@@ -130,7 +132,7 @@ class DocumentController extends Controller
         // dump($query->toSql());
         // dump($query->getBindings());
 
-        
+
         // $document = Document::findOrFail($id);
         // $fieldsString = $document->documentType()->columns();
         // //$fieldsString = $request->input('fields', '');  // Ej: "nombre y telefono" desde query param ?fields=nombre y telefono
@@ -150,7 +152,7 @@ class DocumentController extends Controller
 
     // public function index(): JsonResponse
     // {
-    //     //$documents = Document::with('clients')->get();    
+    //     //$documents = Document::with('clients')->get();
     //     return response()->json(DocumentResource::collection($documents));
     // }
 
@@ -166,6 +168,7 @@ class DocumentController extends Controller
     // }
     public function showData(Document $document): JsonResponse
     {
+        //dd($document);
         return response()->json($document->data);
     }
 
@@ -186,7 +189,7 @@ class DocumentController extends Controller
     // public function options(Document $workflow): JsonResponse
     // {
     //     $workflow->load('options');
-    //     return response()->json(new DocumentResource($workflow)); 
+    //     return response()->json(new DocumentResource($workflow));
     // }
 
 }

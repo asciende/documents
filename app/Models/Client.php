@@ -13,9 +13,15 @@ class Client extends Model
 
     protected $fillable = ['name','email','is_active'];
     protected $hidden = ['id','password','remember_token' ];
-    
+
     public function workflows()
     {
         return $this->belongsToMany(Workflow::class);
     }
+
+    public function documentTypes()
+    {
+        return $this->belongsToMany(DocumentType::class);
+    }
 }
+

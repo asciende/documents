@@ -35,11 +35,15 @@ Route::prefix('v1')->group(function () {
         Route::middleware(['auth:sanctum', 'ensure.client'])->group(function () {
             Route::get('profile', [AuthClientController::class, 'profile']);
             Route::post('logout', [AuthClientController::class, 'logout']);
-            
-            Route::get('/documentTypes', [DocumentTypeController::class, 'index']);                 // obtener los tipos de documento
+
+            Route::get('/documentTypes', [ClientController::class, 'documentTypes']);   // obtener los tipos de documento del cliente
+            Route::get('/documentTypes/filters/{documentType}', [DocumentTypeController::class, 'filters']);   // obtener los filtros segun el tipo de documento
+            // este es el anterior
+            // Route::get('/documentTypes', [DocumentTypeController::class, 'index']);     // obtener los tipos de documento
+
             Route::get('/documents/type/{documentType}', [DocumentController::class, 'getByType']); // obtener los documentos segun el tipo
             Route::get('/documents/{document}/data', [DocumentController::class, 'showData']);      // obtener los datos del documento en si
-            
+
         });
     });
 });

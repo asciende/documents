@@ -10,13 +10,13 @@ class Document extends Model
     /** @use HasFactory<\Database\Factories\DocumentFactory> */
     use HasFactory;
 
-    protected $fillable = ['client_id','document_type_id','external_id','identifier','data'];
+    protected $fillable = ['client_id','document_type_id','external_id','identifier','version','data'];
 
     public function documentType()
     {
         return $this->belongsTo(DocumentType::class);
     }
-   
+
 
     protected $casts = [
         'identifier' => 'array',  // Esto convierte el JSON en un array automáticamente al acceder a $document->identifier
