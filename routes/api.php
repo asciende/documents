@@ -4,10 +4,8 @@ use App\Http\Controllers\AuthClientController;
 use App\Http\Controllers\Api\ClientController;
 use App\Http\Controllers\Api\DocumentController;
 use App\Http\Controllers\Api\DocumentTypeController;
-use App\Http\Controllers\Api\WorkflowController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthUserController;
-
 
 // Administradores
 Route::prefix('v1')->group(function () {

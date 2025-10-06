@@ -1,9 +1,4 @@
-Pendientes
-Generar los nuevos usuarios
-Probar
-preparar para subir
-subir
-hacer los insert y update necesarios
-
-
-mensaje al usuario mediante pushno seque
+Filament
+Manejo de usuarios
+Manejo de tipos de documentos
+Vinculo de tipos de documentos con usuarios

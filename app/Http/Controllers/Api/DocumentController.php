@@ -43,10 +43,10 @@ class DocumentController extends Controller
             ]);
         }
 
-        Log::info("proxima linea event");
-        //event(new DocumentsUploaded("Se cargaron documentos del tipo {$document_type_id}"));
-        event(new DocumentsUploaded($document_type_id, 'Se han actualizado los documentos'));
-        Log::info("anterior linea event");
+        if(env('PUSHER_SHOW')){
+            $documentType = DocumentType::where('id', $document_type_id)->first();
+            event(new DocumentsUploaded('Se han actualizado los documentos:'.$documentType->name));
+        }
 
         return response()->json(['message' => 'Documentos guardados correctamente.'], 201);
 
